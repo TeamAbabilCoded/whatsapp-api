@@ -38,11 +38,12 @@ app.get('/', (req, res) => {
   });
 });
 
-const client = new Client({
+const client = await puppeteer.launch({
   restartOnAuthFail: true,
   puppeteer: {
     headless: true,
     args: [
+      '--use-gl=egl',
       '--no-sandbox',
       '--disable-setuid-sandbox',
       '--disable-dev-shm-usage',
