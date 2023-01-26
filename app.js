@@ -12,10 +12,6 @@ const mime = require('mime-types');
 
 const port = process.env.PORT || 8000;
 
-const browser = await puppeteer.launch({
-  ignoreDefaultArgs: ['--disable-extensions'],
-});
-
 const app = express();
 const server = http.createServer(app);
 const io = socketIO(server);
@@ -42,22 +38,8 @@ app.get('/', (req, res) => {
   });
 });
 
-const client = new Client({
-  restartOnAuthFail: true,
-  puppeteer: {
-    headless: true,
-    args: [
-      '--no-sandbox',
-      '--disable-setuid-sandbox',
-      '--disable-dev-shm-usage',
-      '--disable-accelerated-2d-canvas',
-      '--no-first-run',
-      '--no-zygote',
-      '--single-process', // <- this one doesn't works in Windows
-      '--disable-gpu'
-    ],
-  },
-  authStrategy: new LocalAuth()
+const browser = await puppeteer.launch({
+  ignoreDefaultArgs: ['--disable-extensions'],
 });
 
 client.on('message', msg => {
